@@ -100,7 +100,7 @@ class RadiusTokenClass(TokenClass):
                'title': 'RADIUS Token',
                'description': _('RADIUS: Forward authentication request to a '
                                 'RADIUS server.'),
-               'user': ['enroll'],
+               'user':  ['enroll'],
                # This tokentype is enrollable in the UI for...
                'ui_enroll': ["admin", "user"],
                'policy': {},
