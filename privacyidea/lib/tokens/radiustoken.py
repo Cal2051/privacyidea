@@ -144,6 +144,7 @@ class RadiusTokenClass(TokenClass):
         self.add_tokeninfo("radius.user", val)
         self.add_tokeninfo("tokenkind", TOKENKIND.VIRTUAL)
 
+    #@challenge_response_allowed
     @log_with(log)
     def is_challenge_request(self, passw, user=None, options=None):
         """
@@ -200,10 +201,12 @@ class RadiusTokenClass(TokenClass):
         attributes = {'state': transactionid}
         validity = int(get_from_config('DefaultChallengeValidityTime', 120))
 
+        challenge = b32encode_and_unicode(geturandom())
         db_challenge = Challenge(self.token.serial,
                                  transaction_id=transactionid,
                                  data=state,
-                                 challenge=message,
+                                 challenge=challenge,
+                                 session=options.get("session"),
                                  validitytime=validity)
         db_challenge.save()
         self.challenge_janitor()
